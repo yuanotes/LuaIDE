@@ -1,0 +1,5 @@
+[
+    {
+        "keys": ["ctrl+l", "ctrl+r"], "command": "lua_reload"
+    }
+]
