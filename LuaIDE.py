@@ -114,12 +114,13 @@ class LuaAutocomplete(sublime_plugin.EventListener):
             for key, arr in walk.VARIABLES.items():
                 if key.upper().startswith(prefix_u):
                     for value in arr:
-                        result = "{0}\t{1}(Variable)".format(key, os.path.basename(value["path"])), key
+                        result = "{0}\t{1}".format(key, os.path.basename(value["path"])), key
                         results.append(result)
             for key, arr in walk.FUNCTIONS.items():
                 if key.upper().startswith(prefix_u):
                     for value in arr:
-                        result = "{0}\t{1}(Function)".format(key, os.path.basename(value["path"])), key
+                        args_str = "({0})".format(", ".join(value["args"]))
+                        result = "{0}{1}\t{2}".format(key, args_str,  os.path.basename(value["path"])), key
                         results.append(result)
             if len(results) > 0:
                 # return list(set(results))
