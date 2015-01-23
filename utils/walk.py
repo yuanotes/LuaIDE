@@ -76,7 +76,6 @@ def parse_assignment_statement(filename, ast_obj):
 #             required_module = ast_obj["arguments"][0]["value"]
 #             required_module = required_module.replace(r".", "/") + ".lua"
 
-#             project_path = get_project_path()
 
 #             if project_path:
 #                 global settings

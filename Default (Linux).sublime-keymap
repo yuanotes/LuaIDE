@@ -1,5 +1,9 @@
 [
     {
-        "keys": ["ctrl+l", "ctrl+r"], "command": "lua_reload"
+        "keys": ["ctrl+l", "ctrl+r"], "command": "lua_reload",
+    },
+    {
+        "keys": ["ctrl+l", "ctrl+i"], "command": "lua_goto_definition",
+        "context": [{ "key": "selector", "operator": "equal", "operand": "source.lua" }]
     }
 ]
