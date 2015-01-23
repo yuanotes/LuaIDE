@@ -12,8 +12,10 @@ import sublime, sublime_plugin
 
 try:
     import utils.walk
+    import utils.helper
 except:
     from .utils import walk
+    from .utils import helper
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 LUAPARSER_PATH = os.path.join(CUR_DIR, "lib/node_modules/luaparse/bin/luaparse")
@@ -51,6 +53,7 @@ def settings_changed():
         settings = None
     settings = Settings()
 
+
 def iterload(string, cls=json.JSONDecoder, **kwargs):
     string = str(string)
     decoder = cls(**kwargs)
@@ -61,6 +64,10 @@ def iterload(string, cls=json.JSONDecoder, **kwargs):
         idx = WHITESPACE.match(string, end).end()
 
 def get_raw_ast(lua_src_file):
+    cached_content = helper.open_cache_file(lua_src_file)
+    if cached_content:
+        return cached_content
+
     cmd_list = [settings.node_bin_path, LUAPARSER_PATH, "--no-comments", "--locations", lua_src_file]
     startupinfo = None
     if os.name == 'nt':
@@ -71,7 +78,9 @@ def get_raw_ast(lua_src_file):
     exit_code = process.wait()
 
     if exit_code == 0:
-        return str(output, encoding="utf-8")
+        result_str = str(output, encoding="utf-8")
+        helper.save_cache_file(lua_src_file, result_str)
+        return result_str
     else:
         return None
 
